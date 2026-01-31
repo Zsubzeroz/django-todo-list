@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block title %}Minhas Tarefas{% endblock %}
+
+{% block content %}
+    <h1>Lista de Tarefas</h1>
+    
+    <p><a href="{% url 'add_task' %}">➕ Adicionar Nova Tarefa</a></p>
+
+    <hr>
+
+    {% if tarefas %}
+        <ul>
+            {% for tarefa in tarefas %}
+                <li class="{% if tarefa.concluida %}completed{% endif %}">
+
+                    <strong>Descrição:</strong> {{ tarefa.conteudo }} <br>
+                    <strong>Criado em:</strong> {{ tarefa.data_hora_criacao|date:"d/m/Y H:i" }}
+                    {% if tarefa.prazo %}
+                        | <strong>Prazo:</strong> {{ tarefa.prazo|date:"d/m/Y H:i" }}
+                    {% endif %}
+                    <br>
+                    <strong>Tags:</strong>
+                    {% if tarefa.tags.all %}
+                        {% for tag in tarefa.tags.all %}<span style="background-color: #e0e0e0; padding: 2px 5px; border-radius: 3px;">{{ tag.nome }}</span> {% endfor %}
+                    {% else %}
+                        Sem tags
+                    {% endif %}
+
+                    <br><br>
+
+                    <a href="{% url 'toggle_status' tarefa.id %}">
+                        {% if tarefa.concluida %}
+                            [Undo]
+                        {% else %}
+                            [Complete]
+                        {% endif %}
+                    </a>
+
+                    <a href="#">[Editar]</a>
+                    <a href="#">[Excluir]</a>
+                </li>
+                <hr>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>Nenhuma tarefa pendente! Ótimo trabalho (ou adicione uma).</p>
+    {% endif %}
+
+{% endblock content %}
