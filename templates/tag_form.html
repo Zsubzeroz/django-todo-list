@@ -3,14 +3,16 @@
 {% block title %}{{ titulo }}{% endblock %}
 
 {% block content %}
-    <h1>{{ titulo }}</h1>
+    <h1 class="mb-4">{{ titulo }}</h1>
 
-    <form method="post">
+    <form method="post" class="col-md-6">
         {% csrf_token %}
-        <label for="nome">Nome:</label><br>
-        <input type="text" id="nome" name="nome" value="{{ tag.nome|default_if_none:'' }}" required><br><br>
-        
-        <button type="submit">Salvar</button>
-        <a href="{% url 'list_tags' %}">Cancelar</a>
+        <div class="mb-3">
+            <label for="nome" class="form-label">Nome:</label>
+            <input type="text" id="nome" name="nome" value="{{ tag.nome|default_if_none:'' }}" required class="form-control">
+        </div>
+
+        <button type="submit" class="btn btn-primary">Salvar</button>
+        <a href="{% url 'list_tags' %}" class="btn btn-secondary">Cancelar</a>
     </form>
 {% endblock content %}

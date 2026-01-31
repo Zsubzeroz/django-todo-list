@@ -3,14 +3,12 @@
 {% block title %}Lista de Tags{% endblock %}
 
 {% block content %}
-    <h1>Lista de Tags</h1>
-    
-    <p><a href="{% url 'add_tag' %}">➕ Adicionar Nova Tag</a></p> 
+    <h1 class="mb-4">Lista de Tags</h1>
 
-    <hr>
+    <p><a href="{% url 'add_tag' %}" class="btn btn-primary mb-3">➕ Adicionar Nova Tag</a></p>
 
     {% if tags %}
-        <table>
+        <table class="table table-striped">
             <thead>
                 <tr>
                     <th>Nome da Tag</th>
@@ -22,11 +20,10 @@
                 <tr>
                     <td>{{ tag.nome }}</td>
                     <td>
-                        <a href="{% url 'update_tag' tag.id %}">[Atualizar]</a>
-                        <!-- Exclusão simples com POST (recomendado) -->
+                        <a href="{% url 'update_tag' tag.id %}" class="btn btn-sm btn-warning">Atualizar</a>
                         <form method="post" action="{% url 'delete_tag' tag.id %}" style="display:inline;">
                             {% csrf_token %}
-                            <button type="submit" onclick="return confirm('Tem certeza que deseja excluir a tag {{ tag.nome }}?');">[Excluir]</button>
+                            <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Tem certeza que deseja excluir a tag {{ tag.nome }}?');">Excluir</button>
                         </form>
                     </td>
                 </tr>
@@ -34,6 +31,6 @@
             </tbody>
         </table>
     {% else %}
-        <p>Nenhuma tag cadastrada.</p>
+        <p class="alert alert-info">Nenhuma tag cadastrada.</p>
     {% endif %}
 {% endblock content %}
