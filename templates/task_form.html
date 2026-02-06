@@ -1,34 +1,24 @@
 {% extends "base.html" %}
 
-{% block title %}{{ titulo }}{% endblock %}
+{% block title %}{{ title }}{% endblock %}
 
 {% block content %}
-    <h1 class="mb-4">{{ titulo }}</h1>
+    <h1 class="mb-4">{{ title }}</h1>
 
     <form method="post" class="col-md-8">
         {% csrf_token %}
 
-        <div class="mb-3">
-            <label for="conteudo" class="form-label">Conteúdo da Tarefa:</label>
-            <textarea id="conteudo" name="conteudo" rows="3" required class="form-control"></textarea>
-        </div>
+        {% for field in form %}
+            <div class="mb-3">
+                <label class="form-label">{{ field.label }}</label>
+                {{ field }}
+                {% if field.errors %}
+                    <div class="text-danger small">{{ field.errors }}</div>
+                {% endif %}
+            </div>
+        {% endfor %}
 
-        <div class="mb-3">
-            <label for="prazo" class="form-label">Prazo (Opcional):</label>
-            <input type="datetime-local" id="prazo" name="prazo" class="form-control">
-        </div>
-
-        <div class="mb-3">
-            <label class="form-label">Tags (Opcional):</label><br>
-            {% for tag in context.tags %}
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="checkbox" name="tags" id="tag_{{ tag.id }}" value="{{ tag.id }}">
-                    <label class="form-check-label" for="tag_{{ tag.id }}">{{ tag.nome }}</label>
-                </div>
-            {% endfor %}
-        </div>
-
-        <button type="submit" class="btn btn-success">Salvar Tarefa</button>
+        <button type="submit" class="btn btn-success">Salvar</button>
         <a href="{% url 'index' %}" class="btn btn-secondary">Cancelar</a>
     </form>
-{% endblock content %}
+{% endblock %}
